@@ -1,4 +1,4 @@
-package main.java.com.api.edusys.services;
+package com.api.edusys.services;
 
 import com.api.edusys.dto.StudentDTO;
 import com.api.edusys.entities.Student;
@@ -7,7 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.strem.Collectors;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -22,10 +22,10 @@ public class StudentService {
     }
 
     private Student toEntity(StudentDTO dto) {
-        return modelMapper.map(dto, Studnt.class);
+        return modelMapper.map(dto, Student.class);
     }
 
-    private StudentDto toDTO(Student student) {
+    private StudentDTO toDTO(Student student) {
         return modelMapper.map(student, StudentDTO.class);
     }
 
@@ -45,12 +45,17 @@ public class StudentService {
     public StudentDTO getStudentById(Long id) {
         Student student = studentRepository.findById(id)
                                 .orElseThrow(() -> new RuntimeException("Student with id: " + id + " not found"));
-                                
+       
+        return toDTO(student);
+    }
+
+    public StudentDTO updateStudent(Long id, StudentDTO studentDTO) {
+        Student existingStudent = studentRepository.findById(id)
+                                        .orElseThrow(() -> new RuntimeException("Student with id: " + id + " not found"));  
+        
         existingStudent.setName(studentDTO.getName());
         existingStudent.setEmail(studentDTO.getEmail());
         existingStudent.setAge(studentDTO.getAge());
-
-        studentDTO.setId(id);
 
         Student updatedStudent = studentRepository.save(existingStudent);
         return toDTO(updatedStudent);

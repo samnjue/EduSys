@@ -1,6 +1,4 @@
-package main.java.com.api.edusys.config;
-
-import java.beans.BeanProperty;
+package com.api.edusys.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

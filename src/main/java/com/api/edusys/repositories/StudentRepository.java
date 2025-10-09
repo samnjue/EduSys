@@ -1,4 +1,4 @@
-package main.java.com.api.edusys.repositories;
+package com.api.edusys.repositories;
 
 import com.api.edusys.entities.Student;
 import org.springframework.data.jpa.repository.JpaRepository;

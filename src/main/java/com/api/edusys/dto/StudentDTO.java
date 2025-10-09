@@ -1,4 +1,4 @@
-package main.java.com.api.edusys.dto;
+package com.api.edusys.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -22,6 +22,6 @@ public class StudentDTO {
 
     @Min(value = 16, message = "Student must be at least 16 years old")
     @Max(value = 60, message = "Student cannot be older than 60 years old")
-    @NotuNull(message = "Age is required")
+    @NotNull(message = "Age is required")
     private Integer age;
 }

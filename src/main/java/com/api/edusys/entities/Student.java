@@ -1,4 +1,4 @@
-package main.java.com.api.edusys.entities;
+package com.api.edusys.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +11,7 @@ import lombok.*;
 public class Student {
 
     @Id
-    @GenerateValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

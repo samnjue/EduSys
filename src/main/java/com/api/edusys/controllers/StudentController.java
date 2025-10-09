@@ -1,8 +1,9 @@
-package main.java.com.api.edusys.controllers;
+package com.api.edusys.controllers;
 
-import com.api.edusys.dto.StudentDTO;
 import com.api.edusys.services.StudentService;
 import jakarta.validation.Valid;
+import com.api.edusys.dto.StudentDTO;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/students")
 public class StudentController {
     
-    public final main.java.com.api.edusys.services.StudentService studentService;
+    public final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
