@@ -5,6 +5,9 @@ import com.api.edusys.entities.Subject;
 import com.api.edusys.entities.Teacher;
 import com.api.edusys.repositories.SubjectRepository;
 import com.api.edusys.repositories.TeacherRepository;
+import com.api.edusys.repositories.StudentRepository;
+import com.api.edusys.entities.Student;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +20,13 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final TeacherRepository teacherRepository;
     private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
 
-    public SubjectService(SubjectRepository subjectRepository, TeacherRepository teacherRepository, ModelMapper modelMapper) {
+    public SubjectService(SubjectRepository subjectRepository, TeacherRepository teacherRepository, ModelMapper modelMapper, StudentRepository studentRepository) {
         this.subjectRepository = subjectRepository;
         this.teacherRepository = teacherRepository;
         this.modelMapper = modelMapper;
+        this.studentRepository = studentRepository;
     }
 
     public SubjectDTO createSubject(SubjectDTO subjectDTO) {
@@ -56,13 +61,13 @@ public class SubjectService {
 
     public SubjectDTO getSubjectById(Long id) {
         Subject subject = subjectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Subject with id: " + id + " not found"));
+                .orElseThrow(() -> new RuntimeException("Subject with ID: " + id + " not found"));
         return toDTO(subject);
     }
 
     public SubjectDTO updateSubject(Long id, SubjectDTO subjectDTO) {
         Subject existingSubject = subjectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Subject with id: " + id + " not found"));
+                .orElseThrow(() -> new RuntimeException("Subject with ID: " + id + " not found"));
 
         if (subjectDTO.getTeacherId() != null) {
             Teacher teacher = teacherRepository.findById(subjectDTO.getTeacherId())
@@ -78,7 +83,22 @@ public class SubjectService {
 
     public void deleteSubject(Long id) {
         Subject existingSubject = subjectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Subject with id: " + id + " not found"));
+                .orElseThrow(() -> new RuntimeException("Subject with ID: " + id + " not found"));
         subjectRepository.delete(existingSubject);
+    }
+
+    public SubjectDTO enrollStudent(Long subjectId, Long studentId) {
+        Subject subject = subjectRepository.findById(subjectId)
+                    .orElseThrow(() -> new RuntimeException("Subject with ID: " + subjectId + " not found"));
+
+        Student student = studentRepository.findById(studentId)
+                    .orElseThrow(() -> new RuntimeException("Student with ID: " + studentId + " not found"));
+
+        student.getSubjects().add(subject);
+
+        subject.getStudents().add(student);
+
+        Subject updatedSubject = subjectRepository.save(subject);
+        return toDTO(updatedSubject);
     }
 }

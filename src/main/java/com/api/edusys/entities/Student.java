@@ -3,6 +3,7 @@ package com.api.edusys.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -34,5 +35,19 @@ public class Student {
         inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
     private Set<Subject> subjects = new HashSet<>();
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+
+        Student s = (Student) o;
+        return Objects.equals(id, s.id);
+    }
 }
 

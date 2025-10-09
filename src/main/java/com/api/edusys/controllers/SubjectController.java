@@ -47,4 +47,13 @@ public class SubjectController {
         subjectService.deleteSubject(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{subjectId}/enroll/{studentId}")
+    public ResponseEntity<SubjectDTO> enrollStudent(
+        @PathVariable Long subjectId,
+        @PathVariable Long studentId
+    ) {
+        SubjectDTO updatedSubject = subjectService.enrollStudent(subjectId, studentId);
+        return ResponseEntity.ok(updatedSubject);
+    }
 }
